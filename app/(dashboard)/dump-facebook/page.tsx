@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from 'react';
-import { Input } from '@/components/ui/input';
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
 import { Eye } from "lucide-react";
 import {
     Card,
@@ -11,14 +11,22 @@ import {
     CardFooter,
 } from "@/components/ui/card";
 
+interface FacebookResult {
+    id: string;
+    name: string;
+}
+
+interface SelectedFB extends FacebookResult {
+    url: string;
+}
 
 const Facebook = () => {
-    const [name, setName] = useState("");
-    const [limit, setLimit] = useState("");
-    const [jeda, setJeda] = useState("");
-    const [results, setResults] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [selectfb, setSelectfb] = useState(null);
+    const [name, setName] = useState<string>("");
+    const [limit, setLimit] = useState<string>("");
+    const [jeda, setJeda] = useState<string>("");
+    const [results, setResults] = useState<FacebookResult[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [selectfb, setSelectfb] = useState<SelectedFB | null>(null);
 
     const handleDump = async () => {
         setLoading(true);
@@ -44,13 +52,14 @@ const Facebook = () => {
 
     return (
         <div className="items-center w-full text-white h-full relative z-20">
-            <header className='bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg border-b border-gray-700 p-4'>
-                <div className='max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8'>
-                    <h1 className='text-2xl font-semibold text-gray-100'>Dump Facebook</h1>
+            <header className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg border-b border-gray-700 p-4">
+                <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+                    <h1 className="text-2xl font-semibold text-gray-100">Dump Facebook</h1>
                 </div>
             </header>
 
-            <div className='p-6'>
+            <div className="p-6">
+                {/* Form Input */}
                 <Card className="w-full max-w-2xl bg-gray-800 text-white border border-gray-700 shadow-lg mb-4">
                     <CardHeader>
                         <CardTitle className="text-center">Dump Facebook ID</CardTitle>
@@ -86,6 +95,7 @@ const Facebook = () => {
                     </CardContent>
                 </Card>
 
+                {/* Results Table */}
                 {(loading || results.length > 0) && (
                     <Card className="w-full max-w-2xl bg-gray-800 text-white border border-gray-700 shadow-lg mt-4">
                         <CardHeader>
@@ -104,18 +114,31 @@ const Facebook = () => {
                                     <tbody className="text-gray-300">
                                         {loading ? (
                                             <tr>
-                                                <td colSpan={3} className="text-center p-4 animate-pulse text-blue-400">
+                                                <td
+                                                    colSpan={3}
+                                                    className="text-center p-4 animate-pulse text-blue-400"
+                                                >
                                                     Loading...
                                                 </td>
                                             </tr>
                                         ) : (
-                                            results.map((item: any, index) => (
-                                                <tr key={index} className="hover:bg-gray-600 transition-colors">
+                                            results.map((item: FacebookResult, index) => (
+                                                <tr
+                                                    key={index}
+                                                    className="hover:bg-gray-600 transition-colors"
+                                                >
                                                     <td className="border p-2">{item.id}</td>
-                                                    <td className="border p-2 break-all">{item.name}</td>
+                                                    <td className="border p-2 break-all">
+                                                        {item.name}
+                                                    </td>
                                                     <td className="border p-2">
                                                         <button
-                                                            onClick={() => setSelectfb({ ...item, url: `https://www.facebook.com/profile.php?id=${item.id}` })}
+                                                            onClick={() =>
+                                                                setSelectfb({
+                                                                    ...item,
+                                                                    url: `https://www.facebook.com/profile.php?id=${item.id}`,
+                                                                })
+                                                            }
                                                             className="bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded"
                                                         >
                                                             <Eye className="w-4 h-4" />
@@ -129,18 +152,26 @@ const Facebook = () => {
                             </div>
                         </CardContent>
                         <CardFooter>
-                            <p className="text-xs text-gray-400">Klik ikon mata untuk melihat detail profil.</p>
+                            <p className="text-xs text-gray-400">
+                                Klik ikon mata untuk melihat detail profil.
+                            </p>
                         </CardFooter>
                     </Card>
                 )}
+
+                {/* Modal Detail */}
                 {selectfb && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                         <div className="bg-white p-6 rounded shadow-lg w-[90%] max-w-md">
                             <h2 className="text-lg font-semibold mb-4">Detail Akun Facebook</h2>
-                            <p><strong>Nama:</strong> {selectfb.name}</p>
-                            <p><strong>ID:</strong> {selectfb.id}</p>
                             <p>
-                                <strong>Link Profil:</strong>{' '}
+                                <strong>Nama:</strong> {selectfb.name}
+                            </p>
+                            <p>
+                                <strong>ID:</strong> {selectfb.id}
+                            </p>
+                            <p>
+                                <strong>Link Profil:</strong>{" "}
                                 <a
                                     href={selectfb.url}
                                     target="_blank"
@@ -159,7 +190,6 @@ const Facebook = () => {
                         </div>
                     </div>
                 )}
-
             </div>
         </div>
     );

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import {
     Card, CardHeader, CardTitle, CardContent, CardFooter, CardDescription
 } from '@/components/ui/card'
@@ -17,6 +17,14 @@ type Email = {
     time: string
 }
 
+type MailAPIResponse = {
+    mail_id: number
+    from_name: string
+    from_mail: string
+    subject: string
+    time: string
+}
+
 export default function Mail() {
     const [selectedEmail, setSelectedEmail] = useState<Email | null>(null)
     const [tempEmail, setTempEmail] = useState<string>('Memuat...')
@@ -25,24 +33,24 @@ export default function Mail() {
     const [inboxReady, setInboxReady] = useState(false)
     const [loading, setLoading] = useState(false)
 
-    const fetchEmail = async () => {
+    const fetchEmail = useCallback(async () => {
         const res = await fetch('/api/mail')
         const data = await res.json()
         setTempEmail(data.email)
         setSelectedEmail(null)
         setInboxMessages([])
         setInboxReady(false)
-    }
+    }, [])
 
-    const fetchInbox = async () => {
+    const fetchInbox = useCallback(async () => {
         setLoading(true)
         try {
             if (!tempEmail || tempEmail === 'Memuat...') return
             const res = await fetch(`/api/inbox?email=${encodeURIComponent(tempEmail)}`)
             const data = await res.json()
-            const mails = data.mails || []
+            const mails: MailAPIResponse[] = data.mails || []
 
-            const formatted: Email[] = mails.map((mail: any) => ({
+            const formatted: Email[] = mails.map((mail) => ({
                 id: mail.mail_id,
                 sender: mail.from_name,
                 from: mail.from_mail,
@@ -55,16 +63,16 @@ export default function Mail() {
         } finally {
             setLoading(false)
         }
-    }
+    }, [tempEmail])
 
     useEffect(() => {
         fetchEmail()
-    }, [])
+    }, [fetchEmail])
 
     useEffect(() => {
         const interval = setInterval(fetchInbox, 10000)
         return () => clearInterval(interval)
-    }, [tempEmail])
+    }, [fetchInbox])
 
     const handleCopy = () => {
         navigator.clipboard.writeText(tempEmail)
@@ -122,7 +130,6 @@ export default function Mail() {
                                     'Check Inbox'
                                 )}
                             </Button>
-
 
                             <Button size="icon" className="flex-1 h-[50px] min-w-[140px]" onClick={handleReset}>
                                 <Trash2 size={24} className="mr-2" /> Delete

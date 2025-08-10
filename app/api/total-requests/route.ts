@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-let requestCounts: Record<string, number> = {};
+const requestCounts: Record<string, number> = {};
 
 export async function GET(request: Request) {
     const ip = request.headers.get("x-forwarded-for") || "unknown";
