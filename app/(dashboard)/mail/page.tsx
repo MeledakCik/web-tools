@@ -89,103 +89,109 @@ export default function Mail() {
     }
 
     return (
-        <main className="flex min-h-screen p-6 bg-gray-900">
-            <Card className="w-full bg-gray-800 border border-gray-700 text-white">
-                <CardHeader>
-                    <CardTitle className="text-center mb-4 text-4xl">📨 Temp Mail Plus Generator</CardTitle>
-                    <CardDescription className="text-gray-300 text-center mb-4 text-2xl">
-                        Gunakan email sementara ini untuk verifikasi. Klik pesan untuk melihat atau menyembunyikan detail.
-                    </CardDescription>
-                </CardHeader>
+        <main className="h-full bg-white">
+            <header className="bg-blue-500 bg-opacity-50 backdrop-blur-md shadow-lg border-b border-gray-700 p-4">
+                <div className="max-w-full mx-auto py-4 px-4 sm:px-6 lg:px-8">
+                    <h1 className="text-3xl font-bold text-white">Mail Generator</h1>
+                </div>
+            </header>
+            <div className='justify-center flex p-4 sm:p-6'>
+                <Card className="w-full max-w-5xl bg-gray-700 border border-gray-700 text-white">
+                    <CardHeader>
+                        <CardTitle className="text-center mb-4 text-2xl sm:text-4xl">
+                            📨 Temp Mail Plus Generator
+                        </CardTitle>
+                        <CardDescription className="text-gray-300 text-center mb-4 text-base sm:text-2xl">
+                            Gunakan email sementara ini untuk verifikasi. Klik pesan untuk melihat atau menyembunyikan detail.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                        <div className="grid gap-2">
+                            <Label className="h-[50px] sm:h-[60px] border border-gray-700 w-full justify-center text-lg sm:text-[26px] text-white flex items-center px-2 sm:px-4 break-all">
+                                {tempEmail}
+                            </Label>
 
-                <CardContent className="space-y-6">
-                    <div className="grid gap-2">
-                        <Label className="h-[60px] border border-gray-700 w-full justify-center text-[26px] text-white flex items-center px-4">
-                            {tempEmail}
-                        </Label>
+                            {/* Button Group */}
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4 mb-4 w-full px-1">
+                                <Button className="flex items-center justify-center h-[45px] sm:h-[50px]" onClick={handleCopy}>
+                                    <Copy size={20} className="mr-2" />
+                                    {copied ? 'Copied!' : 'Copy'}
+                                </Button>
 
-                        <div className="flex flex-wrap justify-center gap-4 mt-4 mb-4 w-full px-2">
-                            <Button size="icon" className="flex-1 h-[50px] min-w-[140px]" onClick={handleCopy}>
-                                <Copy size={24} className="mr-2" />
-                                {copied ? 'Copied!' : 'Copy'}
-                            </Button>
-
-                            <Button
-                                size="icon"
-                                className="flex-1 h-[50px] min-w-[140px]"
-                                onClick={fetchInbox}
-                            >
-                                <RefreshCcw
-                                    size={24}
-                                    className={cn(
-                                        "mr-2",
-                                        loading && "animate-spin"
-                                    )}
-                                />
-                                {inboxReady && inboxMessages.length > 0 ? (
-                                    <span className="flex items-center gap-1 text-green-400">
-                                        <MailCheck size={20} /> Message In!
-                                    </span>
-                                ) : (
-                                    'Check Inbox'
-                                )}
-                            </Button>
-
-                            <Button size="icon" className="flex-1 h-[50px] min-w-[140px]" onClick={handleReset}>
-                                <Trash2 size={24} className="mr-2" /> Delete
-                            </Button>
-                        </div>
-                    </div>
-
-                    <div className="p-4 border border-gray-700 mt-4 rounded-md h-full overflow-y-auto bg-gray-900">
-                        {inboxReady && inboxMessages.length > 0 ? (
-                            inboxMessages.map((email) => (
-                                <Card
-                                    key={email.id}
-                                    className={`cursor-pointer hover:bg-gray-700 transition bg-gray-800 border border-gray-600 p-4 mb-2 ${selectedEmail?.id === email.id ? 'ring-2 ring-indigo-400' : ''}`}
-                                    onClick={() =>
-                                        setSelectedEmail(selectedEmail?.id === email.id ? null : email)
-                                    }
+                                <Button
+                                    className="flex items-center justify-center h-[45px] sm:h-[50px]"
+                                    onClick={fetchInbox}
                                 >
-                                    <div className="flex justify-between items-center">
-                                        <div>
-                                            <h3 className="text-white font-semibold">{email.sender}</h3>
-                                            <p className="text-sm text-gray-300">{email.subject}</p>
+                                    <RefreshCcw
+                                        size={20}
+                                        className={cn("mr-2", loading && "animate-spin")}
+                                    />
+                                    {inboxReady && inboxMessages.length > 0 ? (
+                                        <span className="flex items-center gap-1 text-green-400">
+                                            <MailCheck size={18} /> Message In!
+                                        </span>
+                                    ) : (
+                                        'Check Inbox'
+                                    )}
+                                </Button>
+
+                                <Button className="flex items-center justify-center h-[45px] sm:h-[50px]" onClick={handleReset}>
+                                    <Trash2 size={20} className="mr-2" /> Delete
+                                </Button>
+                            </div>
+                        </div>
+
+                        {/* Inbox List */}
+                        <div className="p-3 sm:p-4 border border-gray-700 mt-4 rounded-md max-h-[400px] overflow-y-auto bg-gray-900">
+                            {inboxReady && inboxMessages.length > 0 ? (
+                                inboxMessages.map((email) => (
+                                    <Card
+                                        key={email.id}
+                                        className={`cursor-pointer hover:bg-gray-700 transition bg-gray-700 border border-gray-600 p-3 sm:p-4 mb-2 ${selectedEmail?.id === email.id ? 'ring-2 ring-indigo-400' : ''}`}
+                                        onClick={() =>
+                                            setSelectedEmail(selectedEmail?.id === email.id ? null : email)
+                                        }
+                                    >
+                                        <div className="flex justify-between items-center">
+                                            <div>
+                                                <h3 className="text-white font-semibold text-sm sm:text-base">{email.sender}</h3>
+                                                <p className="text-xs sm:text-sm text-gray-300">{email.subject}</p>
+                                            </div>
+                                            <span className="text-xs text-gray-400">{email.time}</span>
                                         </div>
-                                        <span className="text-xs text-gray-400">{email.time}</span>
+                                    </Card>
+                                ))
+                            ) : (
+                                <p className="text-gray-400 text-center">Belum ada pesan masuk.</p>
+                            )}
+
+                            {selectedEmail && (
+                                <Card className="relative bg-gray-100 text-gray-800 border border-gray-300 rounded-md shadow-md p-4 sm:p-6 mt-4">
+                                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4">
+                                        <div>
+                                            <h2 className="font-semibold text-md">{selectedEmail.sender}</h2>
+                                            <p className="text-xs text-gray-600">{selectedEmail.from}</p>
+                                        </div>
+                                        <span className="text-xs text-gray-600 mt-2 sm:mt-0">{selectedEmail.time}</span>
+                                    </div>
+
+                                    <div className="border-t border-gray-300 my-2"></div>
+
+                                    <div className="space-y-4 text-sm sm:text-base">
+                                        <p><strong>Subject:</strong> {selectedEmail.subject}</p>
+                                        <p>Email dari <strong>{selectedEmail.sender}</strong> ke <strong>{tempEmail}</strong></p>
+                                        <p><i>Konten email bisa ditampilkan di sini jika endpoint detail tersedia.</i></p>
                                     </div>
                                 </Card>
-                            ))
-                        ) : (
-                            <p className="text-gray-400 text-center">Belum ada pesan masuk.</p>
-                        )}
+                            )}
+                        </div>
+                    </CardContent>
 
-                        {selectedEmail && (
-                            <Card className="relative bg-gray-100 text-gray-800 border border-gray-300 rounded-md shadow-md p-6 mt-4">
-                                <div className="flex justify-between items-center mb-4">
-                                    <div>
-                                        <h2 className="font-semibold text-md">{selectedEmail.sender}</h2>
-                                        <p className="text-xs text-gray-600">{selectedEmail.from}</p>
-                                    </div>
-                                    <span className="text-xs text-gray-600">{selectedEmail.time}</span>
-                                </div>
-
-                                <div className="border-t border-gray-300 my-2"></div>
-
-                                <div className="space-y-4">
-                                    <p><strong>Subject:</strong> {selectedEmail.subject}</p>
-                                    <p>Email dari <strong>{selectedEmail.sender}</strong> ke <strong>{tempEmail}</strong></p>
-                                    <p><i>Konten email bisa ditampilkan di sini jika endpoint detail tersedia.</i></p>
-                                </div>
-                            </Card>
-                        )}
-                    </div>
-                </CardContent>
-
-                <CardFooter className="justify-center items-center text-xl text-gray-300">
-                    <Inbox size={32} className="mr-2" /> Inbox Messages
-                </CardFooter>
-            </Card>
+                    <CardFooter className="justify-center items-center text-sm sm:text-xl text-gray-300">
+                        <Inbox size={20} className="mr-2 sm:w-8 sm:h-8" /> Inbox Messages
+                    </CardFooter>
+                </Card>
+            </div>
         </main>
     )
 }

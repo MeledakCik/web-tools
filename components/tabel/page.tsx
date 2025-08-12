@@ -188,15 +188,15 @@ export function DataTableDemo() {
                     onChange={(event) =>
                         table.getColumn("github")?.setFilterValue(event.target.value)
                     }
-                    className="max-w-sm border border-gray-700 text-gray-100"
+                    className="max-w-sm border border-gray-500 text-gray-100"
                 />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild className="border border-gray-700">
-                        <Button className="ml-auto hover:bg-gray-800 bg-gray-800 border border-gray-700 text-gray-100">
+                        <Button className="ml-auto hover:bg-gray-700 bg-gray-700 border border-gray-700 text-gray-100">
                             Columns <ChevronDown />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="bg-gray-800 text-gray-100">
+                    <DropdownMenuContent className="bg-gray-700 text-gray-100">
                         {table
                             .getAllColumns()
                             .filter((column) => column.getCanHide())
@@ -217,14 +217,14 @@ export function DataTableDemo() {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className="rounded-md border border-gray-700 text-gray-100">
+            <div className="rounded-md border border-gray-500 text-gray-100">
                 <Table className="text-gray-100 p-2">
                     <TableHeader className="text-gray-100">
                         {table.getHeaderGroups().map((headerGroup) => (
-                            <TableRow key={headerGroup.id} className="border border-gray-700">
+                            <TableRow key={headerGroup.id} className="border border-gray-500">
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <TableHead key={header.id} className="text-gray-100 bg-gray-800">
+                                        <TableHead key={header.id} className="text-gray-100 bg-gray-700">
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
@@ -243,10 +243,10 @@ export function DataTableDemo() {
                                 <TableRow
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
-                                    className="border border-gray-700"
+                                    className="border border-gray-500"
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id} className="bg-gray-800">
+                                        <TableCell key={cell.id} className="bg-gray-700">
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()
@@ -269,14 +269,15 @@ export function DataTableDemo() {
                 </Table>
             </div>
             <div className="flex items-center justify-end space-x-2 py-4">
-                <div className="text-muted-foreground flex-1 text-sm">
+                <div className="text-gray-200 flex-1 text-sm">
                     {table.getFilteredSelectedRowModel().rows.length} of{" "}
                     {table.getFilteredRowModel().rows.length} row(s) selected.
                 </div>
-                <div className="space-x-2">
+                <div className="space-x-2 text-white">
                     <Button
                         variant="outline"
                         size="sm"
+                        className="bg-gray-800"
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
                     >
@@ -286,6 +287,7 @@ export function DataTableDemo() {
                         variant="outline"
                         size="sm"
                         onClick={() => table.nextPage()}
+                        className="bg-gray-800"
                         disabled={!table.getCanNextPage()}
                     >
                         Next

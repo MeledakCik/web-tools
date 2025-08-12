@@ -32,7 +32,7 @@ const Facebook = () => {
         setLoading(true);
         setResults([]);
         try {
-            const res = await fetch("/api/dump-facebook", {
+            const res = await fetch("http://127.0.0.1:8000/api/dump-facebook", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -52,15 +52,14 @@ const Facebook = () => {
 
     return (
         <div className="items-center w-full text-white h-full relative z-20">
-            <header className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg border-b border-gray-700 p-4">
-                <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-                    <h1 className="text-2xl font-semibold text-gray-100">Dump Facebook</h1>
+            <header className="bg-blue-500 bg-opacity-50 backdrop-blur-md shadow-lg border-b border-gray-700 p-4">
+                <div className="max-w-full mx-auto py-4 px-4 sm:px-6 lg:px-8">
+                    <h1 className="text-3xl font-bold text-white">Dump Facebook</h1>
                 </div>
             </header>
 
             <div className="p-6">
-                {/* Form Input */}
-                <Card className="w-full max-w-2xl bg-gray-800 text-white border border-gray-700 shadow-lg mb-4">
+                <Card className="w-full max-w-2xl bg-gray-700 text-white border border-gray-700 shadow-lg mb-4">
                     <CardHeader>
                         <CardTitle className="text-center">Dump Facebook ID</CardTitle>
                     </CardHeader>
@@ -94,10 +93,8 @@ const Facebook = () => {
                         </div>
                     </CardContent>
                 </Card>
-
-                {/* Results Table */}
                 {(loading || results.length > 0) && (
-                    <Card className="w-full max-w-2xl bg-gray-800 text-white border border-gray-700 shadow-lg mt-4">
+                    <Card className="w-full max-w-2xl bg-gray-700 text-white border border-gray-700 shadow-lg mt-4">
                         <CardHeader>
                             <CardTitle className="text-center">Results</CardTitle>
                         </CardHeader>

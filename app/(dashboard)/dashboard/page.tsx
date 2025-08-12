@@ -35,8 +35,8 @@ export default function Dashboard() {
 
 
     return (
-        <div className="relative bg-gray-800">
-            <header className='bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg border-b border-gray-700 p-4'>
+        <div className="relative ">
+            <header className='bg-blue-400 bg-opacity-50 backdrop-blur-md shadow-lg border-b border-blue-500 p-4'>
                 <div className='max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8'>
                     <h1 className='text-2xl font-semibold text-gray-100'>Dashboard</h1>
                 </div>
@@ -54,7 +54,7 @@ export default function Dashboard() {
                 </motion.div>
             </div>
             <div className="p-4">
-                <motion.div className="bg-gray-800 border border-gray-700 shadow p-4 rounded-[15px] shadow flex gap-2">
+                <motion.div className="bg-gray-700 border border-gray-200 shadow p-4 rounded-[15px] shadow flex gap-2">
                     <DataTableDemo />
                     <ScrollArea className="h-98 w-68 rounded-md border border-gray-700 ">
                         <div className="p-4">
