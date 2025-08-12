@@ -34,8 +34,12 @@ export default function EnableA2FPage() {
             } else {
                 setError(data.message || "Gagal mendapatkan A2F");
             }
-        } catch (err: any) {
-            setError(err.message);
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError(String(err));
+            }
         } finally {
             setLoading(false);
         }

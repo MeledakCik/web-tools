@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function InstagramPostPage() {
     const [cookies, setCookies] = useState("");
@@ -103,7 +104,7 @@ export default function InstagramPostPage() {
                                         className="block border-2 border-dashed border-gray-400 rounded-lg p-2 bg-white cursor-pointer hover:border-blue-400 transition relative h-full flex items-center justify-center"
                                     >
                                         {image ? (
-                                            <img
+                                            <Image
                                                 src={URL.createObjectURL(image)}
                                                 alt="Preview"
                                                 className="w-full h-full object-contain rounded-lg"

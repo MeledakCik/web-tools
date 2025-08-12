@@ -92,7 +92,15 @@ export async function POST(req: Request) {
 
         const result = await configureRes.json();
         return NextResponse.json({ success: true, result });
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 500 });
+    } catch (err: unknown) {
+        let message = "Unknown error";
+        if (err instanceof Error) {
+            message = err.message;
+        } else if (typeof err === "string") {
+            message = err;
+        } else if (err && typeof err === "object" && "toString" in err) {
+            message = String(err);
+        }
+        return NextResponse.json({ error: message }, { status: 500 });
     }
 }
